@@ -12,7 +12,7 @@ try {
     axios.get(api_url).then((res) => {
         for (let asset of res.data.assets) {
             if (re.test(asset.name)) {
-                core.setOutput("download_link", asset.browser_download_url);
+                core.setOutput("download-link", asset.browser_download_url);
             }
         }
     });
