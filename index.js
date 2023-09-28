@@ -14,6 +14,7 @@ try {
     axios.get(api_url).then((res) => {
         const release = res.data;
         for (let asset of release.assets) {
+            console.log(`checking ${asset.name}\n`);
             if (re.test(asset.name)) {
                 core.setOutput("download-link", asset.browser_download_url);
                 core.setOutput("release-tag", release.tag);
