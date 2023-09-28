@@ -28,7 +28,7 @@ async function fetch_release() {
                 if (re.test(asset.name)) {
                     core.setOutput("download-link", asset.browser_download_url);
                     core.setOutput("release-tag", release.tag_name);
-                    console.log(`Found matched release download link: ${asset.browser_download_url}`);
+                    console.log(`Found matched release(${release.tag_name}) download link: ${asset.browser_download_url}`);
                     return;
                 }
             }
