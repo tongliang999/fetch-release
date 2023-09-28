@@ -38,6 +38,7 @@ async function fetch_release() {
             await sleep(10);
         }
     }
+    core.setFailed("Failed to get release info after 10 retries.");
 }
 
 (async () => {
