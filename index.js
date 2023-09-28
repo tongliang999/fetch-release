@@ -1,5 +1,5 @@
 const core = require("@actions/core");
-const axios = require('axios')
+const axios = require('axios');
 
 try {
     const group = core.getInput("group");
@@ -13,8 +13,11 @@ try {
         for (let asset of res.data.assets) {
             if (re.test(asset.name)) {
                 core.setOutput("download-link", asset.browser_download_url);
+                console.log(`Found matched release download link: ${asset.browser_download_url}`);
+                return;
             }
         }
+        core.setFailed(`no matching release (re = ${match})`);
     });
 } catch (error) {
     core.setFailed(error.message);
