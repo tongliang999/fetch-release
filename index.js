@@ -1,15 +1,22 @@
 const core = require("@actions/core");
 const axios = require("axios");
-const sleep = require("sleep");
 
-try {
+function sleep(s) {
+    return new Promise((resolve, _reject) => {
+        setTimeout(() => {
+            resolve();
+        }, s * 1000);
+    });
+}
+
+async function fetch_release() {
     const group = core.getInput("group");
     const repo = core.getInput("repo");
     const tag = core.getInput("tag");
     const match = core.getInput("match");
 
     const api_url = tag === '' ? `https://api.github.com/repos/${group}/${repo}/releases/latest`
-                               : `https://api.github.com/repos/${group}/${repo}/releases/tags/${tag}`;
+        : `https://api.github.com/repos/${group}/${repo}/releases/tags/${tag}`;
     const re = new RegExp(match);
 
     let getReply = false;
@@ -31,9 +38,15 @@ try {
             });
         } catch (err) {
             console.log("Retry after 5s\n");
-            sleep.sleep(5);
+            await sleep(5);
         }
     }
-} catch (error) {
-    core.setFailed(error.message);
 }
+
+(async () => {
+    try {
+        await fetch_release();
+    } catch (error) {
+        core.setFailed(error.message);
+    }
+})();
