@@ -19,7 +19,7 @@ async function fetch_release() {
         : `https://api.github.com/repos/${group}/${repo}/releases/tags/${tag}`;
     const re = new RegExp(match);
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 10; i++) {
         try {
             let res = await axios.get(api_url);
             const release = res.data;
@@ -34,8 +34,8 @@ async function fetch_release() {
             }
             core.setFailed(`no matching release (re = ${match})`);
         } catch (err) {
-            console.log("Retry after 5s\n");
-            await sleep(5);
+            console.log("Retry after 10s\n");
+            await sleep(10);
         }
     }
 }
