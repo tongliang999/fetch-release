@@ -22,20 +22,19 @@ async function fetch_release() {
     let getReply = false;
     for (let i = 0; i < 5 && !getReply; i++) {
         try {
-            axios.get(api_url).then((res) => {
-                getReply = true;
-                const release = res.data;
-                for (let asset of release.assets) {
-                    console.log(`checking ${asset.name}\n`);
-                    if (re.test(asset.name)) {
-                        core.setOutput("download-link", asset.browser_download_url);
-                        core.setOutput("release-tag", release.tag);
-                        console.log(`Found matched release download link: ${asset.browser_download_url}`);
-                        return;
-                    }
+            let res = await axios.get(api_url);
+            getReply = true;
+            const release = res.data;
+            for (let asset of release.assets) {
+                console.log(`checking ${asset.name}\n`);
+                if (re.test(asset.name)) {
+                    core.setOutput("download-link", asset.browser_download_url);
+                    core.setOutput("release-tag", release.tag);
+                    console.log(`Found matched release download link: ${asset.browser_download_url}`);
+                    return;
                 }
-                core.setFailed(`no matching release (re = ${match})`);
-            });
+            }
+            core.setFailed(`no matching release (re = ${match})`);
         } catch (err) {
             console.log("Retry after 5s\n");
             await sleep(5);
