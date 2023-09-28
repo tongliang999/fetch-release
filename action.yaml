@@ -7,12 +7,17 @@ inputs:
   repo:
     description: github repository name
     required: true
+  tag:
+    description: the tag of release (latest is set to default)
+    required: false
   match:
     description: regex expression to match the release name
     required: true
 outputs:
   download-link:
     description: the download link to the matched release
+  release-tag:
+    description: the tag of release
 runs:
   using: node20
   main: index.js
