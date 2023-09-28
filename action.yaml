@@ -10,6 +10,7 @@ inputs:
   tag:
     description: the tag of release (latest is set to default)
     required: false
+    default: ''
   match:
     description: regex expression to match the release name
     required: true
