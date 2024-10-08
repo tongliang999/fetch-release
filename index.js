@@ -34,7 +34,7 @@ async function fetch_release() {
             }
             core.setFailed(`no matching release (re = ${match})`);
         } catch (err) {
-            console.log("Retry after 10s\n");
+            console.log("Retry after 10s\n", err);
             await sleep(10);
         }
     }
